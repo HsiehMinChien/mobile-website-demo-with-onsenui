@@ -16,6 +16,26 @@
       "src": "logo512.png",
       "type": "image/png",
       "sizes": "512x512"
+    },
+    {
+      "src": "images/pokemon/icons/1.png",
+      "type": "image/png",
+      "sizes": "40x30"
+    },
+    {
+      "src": "images/pokemon/icons/2.png",
+      "type": "image/png",
+      "sizes": "40x30"
+    },
+    {
+      "src": "images/pokemon/sprites/1.png",
+      "type": "image/png",
+      "sizes": "96x96"
+    },
+    {
+      "src": "images/pokemon/sprites/2.png",
+      "type": "image/png",
+      "sizes": "96x96"
     }
   ],
   "start_url": ".",
