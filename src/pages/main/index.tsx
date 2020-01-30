@@ -39,7 +39,6 @@ function Main({
         data,
         index,
         hasBackButton: true,
-        title: data.name,
       },
     };
     navigator.pushPage(pushParams);
