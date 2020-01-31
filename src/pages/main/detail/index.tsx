@@ -5,6 +5,7 @@ import {
 } from 'react-onsenui';
 import Styled from 'styled-components';
 import PageToolBar from '../../../components/page-tool-bar';
+import Spinner from '../../../components/spinner';
 import { getPokemonDetail, } from '../../../utils';
 
 const StyleImgContainer = Styled.div`
@@ -15,19 +16,38 @@ const StyleImgContainer = Styled.div`
   }
 `;
 
-const StyledType = Styled.div`
-  &.grass {
-    background-color: #00cc00;
-    color: white;
-    padding: 5px 10px;
-    margin: 5px;
+const StyledTypeBlock = Styled.div`
+  &.types {
+    display: flex;
+    justify-content: center;
+    & div {
+      background-color: #eee;
+      color: white;
+      padding: 5px 10px;
+      margin: 5px;
+    }
+    & .grass {
+      background-color: #00cc00;
+    }
+    & .poison {
+      background-color: black;
+    }
+    & .fire {
+      background-color: red;
+    }
+    & .flying {
+      background-color: blue;
+    }
   }
-  &.poison {
-    background-color: black;
-    color: white;
-    padding: 5px 10px;
-    margin: 5px;
-  }
+`;
+
+const StyledDescribe = Styled.div`
+  margin: 20px;
+  padding: 20px;
+  border: 1px solid #222222;
+  background-color: white;
+  border-radius: 5px;
+  font-size: 20px;
 `;
 
 interface DetailPropsTypes {
@@ -53,6 +73,14 @@ function Detail({
   cancelText,
 }: DetailPropsTypes) {
   const [detailData, setDetailData]: any = React.useState({});
+  const [speciesData, setSepciesData]: any = React.useState({});
+  React.useEffect(() => {
+    const { species = {}, } = detailData;
+    const { url, } = species;
+    if (url) {
+      getPokemonDetail(url, setSepciesData);
+    }
+  }, [detailData]);
   function _renderToolbar() {
     return (
       <PageToolBar
@@ -63,10 +91,15 @@ function Detail({
       />
     );
   }
-  console.log('detailData', detailData);
+  console.log('speciesData', speciesData);
+
   const {
     types = [],
   } = detailData;
+  const {
+    flavor_text_entries = []
+  } = speciesData
+  const matchedData = flavor_text_entries.filter((flavor: any) => flavor.language.name === 'en');
   return (
     <Page
       onInit={() => getPokemonDetail(data.url, setDetailData)}
@@ -75,9 +108,13 @@ function Detail({
       <StyleImgContainer>
         <img src={`images/pokemon/sprites/${index + 1}.png`} />
       </StyleImgContainer>
-      <div style={{ justifyContent: 'center', display: 'flex', }}>
-        {types.map((type: any) => <StyledType className={type.type.name}>{type.type.name}</StyledType>)}
-      </div>
+      <StyledTypeBlock className="types">
+        {types.map((type: any) => {
+          const { type: { name = '', }, } = type;
+          return <div className={name}>{name}</div>
+        })}
+      </StyledTypeBlock>
+      {matchedData.length ? <StyledDescribe>{matchedData[0].flavor_text}</StyledDescribe> : <Spinner />}
     </Page >
   );
 }
