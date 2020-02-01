@@ -1,7 +1,9 @@
 import React from 'react';
 import {
   Page,
+  BottomToolbar,
   Navigator,
+  Checkbox,
 } from 'react-onsenui';
 import Styled, { keyframes, } from 'styled-components';
 import PageToolBar from '../../../components/page-tool-bar';
@@ -45,7 +47,7 @@ const StyledTypeBlock = Styled.div`
       background-color: #00cc00;
     }
     & .poison {
-      background-color: black;
+      background-color: #9805C2;
     }
     & .fire {
       background-color: red;
@@ -58,6 +60,25 @@ const StyledTypeBlock = Styled.div`
     }
     & .bug {
       background-color: #A8DB0A;
+    }
+    & .normal {
+      background-color: #FCC526;
+    }
+    & .electric {
+      background-color: #FAEF03;
+      color: black;
+    }
+    & .ground {
+      background-color: #A96536;
+    }
+    & .fairy {
+      background-color: #E777F9;
+    }
+    & .dark {
+      background-color: black;
+    }
+    & .fighting {
+      background-color: #8C0F04;
     }
   }
 `;
@@ -86,13 +107,21 @@ const StyledWieghtAndHeightBlock = Styled.div`
   }
 `;
 
+const StyledBottomToolbar = Styled(BottomToolbar)`
+  text-align: center;
+  & .checkbox {
+    margin: 13px;
+  }
+`;
+
 interface DetailPropsTypes {
-  data: { url: string, name: string, },
+  data: { url: string, name: string, caught?: boolean, },
   index: number,
   navigator: Navigator,
   title: string,
   cancelText: string,
   hasBackButton: boolean,
+  onChangeCaught: (index: number) => void,
 }
 
 const defaultProps = {
@@ -107,6 +136,7 @@ function Detail({
   index,
   navigator,
   cancelText,
+  onChangeCaught,
 }: DetailPropsTypes) {
   const [detailData, setDetailData]: any = React.useState({});
   const [speciesData, setSepciesData]: any = React.useState({});
@@ -142,10 +172,24 @@ function Detail({
     }
     return <Spinner />;
   }
+  function _renderBottomToolbar() {
+    return (
+      <StyledBottomToolbar>
+        <Checkbox
+          onChange={() => { onChangeCaught(index) }}
+          checked={data.caught}
+          modifier='material'
+        >
+          CAUGHT
+        </Checkbox>
+      </StyledBottomToolbar>
+    )
+  }
   return (
     <Page
       onInit={() => getPokemonDetail(data.url, setDetailData)}
       renderToolbar={_renderToolbar}
+      renderBottomToolbar={_renderBottomToolbar}
     >
       <StyleImgContainer>
         <img src={`images/pokemon/sprites/${index + 1}.png`} />
@@ -153,7 +197,7 @@ function Detail({
       <StyledTypeBlock>
         {types.map((type: any) => {
           const { type: { name = '', }, } = type;
-          return <div className={name}>{convertFirstAlphabetToUpperCase(name)}</div>
+          return <div key={name} className={name}>{convertFirstAlphabetToUpperCase(name)}</div>
         })}
       </StyledTypeBlock>
       <StyledWieghtAndHeightBlock>
@@ -167,7 +211,7 @@ function Detail({
         </div>
       </StyledWieghtAndHeightBlock>
       {_renderDescribe()}
-    </Page >
+    </Page>
   );
 }
 

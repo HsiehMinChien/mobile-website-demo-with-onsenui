@@ -38,6 +38,20 @@ function Pokemon({
     setTriggerCoune(triggerCount + 1);
   }
 
+  function _handleChangeCaught(index: number) {
+    const nextData = data.map((d: any, idx: number) => {
+      let nextCaught = d.caught;
+      if (index === idx) {
+        nextCaught = !nextCaught
+      }
+      return {
+        ...d,
+        caught: nextCaught,
+      }
+    });
+    setData(nextData);
+  }
+
   function _renderFooter() {
     return <SytledFooter>
       <Button modifier='quiet' onClick={_handleQuery}>Load more</Button>
@@ -52,12 +66,14 @@ function Pokemon({
         data,
         index,
         hasBackButton: true,
+        onChangeCaught: _handleChangeCaught,
       },
     };
     navigator.pushPage(pushParams);
   }
 
-  function _renderListItem(data: { name: string, url: string, }, idx: number) {
+  function _renderListItem(data: { name: string, url: string, caught?: boolean }, idx: number) {
+    const caughtUrl = data.caught ? 'images/pokemon/pokeball.png' : '';
     return (
       <ListItem
         key={idx}
@@ -74,6 +90,7 @@ function Pokemon({
           />
         </div>
         <div className="center">{convertFirstAlphabetToUpperCase(data.name)}</div>
+        <div className="right"><img src={caughtUrl} /></div>
       </ListItem>
     );
   }
