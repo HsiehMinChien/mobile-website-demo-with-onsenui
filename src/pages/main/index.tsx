@@ -7,28 +7,50 @@ import {
 } from 'react-onsenui';
 import Styled from 'styled-components';
 import PokemonList from '../../datas/pokemon';
-import { getPokemonNames, } from '../../utils';
+import { getPokemonNames, convertFirstAlphabetToUpperCase, } from '../../utils';
 import Detail from './detail';
 
 const StyledHeader = Styled.div`
   padding: 10px;
   text-align: center;
+  & .button--quiet {
+    margin-bottom: 15px;
+  }
 `;
 
 const SytledFooter = StyledHeader;
+
+const QUERY_LIMIT = 20
 
 function Main({
   navigator,
 }: { navigator: any, }) {
   const [data, setData] = React.useState([]);
+  const [triggerCount, setTriggerCoune] = React.useState(0);
   console.log('data', data);
+
+  function _handleGetPokemonsData(values: Array<any>) {
+    const nextData = [
+      ...data,
+      ...values,
+    ];
+    setData(nextData);
+  }
+
+  function _handleQuery() {
+    getPokemonNames(_handleGetPokemonsData, triggerCount * QUERY_LIMIT);
+    setTriggerCoune(triggerCount + 1);
+  }
 
   function _renderHeader() {
     return <StyledHeader> Pokemon List </StyledHeader>
   }
 
   function _renderFooter() {
-    return <SytledFooter>My demo project</SytledFooter>
+    return <SytledFooter>
+      <Button modifier='quiet' onClick={_handleQuery}>Load more</Button>
+      <div>My demo project</div>
+    </SytledFooter>
   }
 
   function _handleClickListItem(data: { name: string, url: string, }, index: number) {
@@ -60,15 +82,13 @@ function Main({
             className='list-item__thumbnail'
           />
         </div>
-        <div className="center">{data.name}</div>
+        <div className="center">{convertFirstAlphabetToUpperCase(data.name)}</div>
       </ListItem>
     );
   }
 
   return (
-    <Page
-      onInit={() => getPokemonNames(setData)}
-    >
+    <Page onInit={_handleQuery}>
       <List
         dataSource={data}
         renderHeader={_renderHeader}
