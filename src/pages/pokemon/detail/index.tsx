@@ -6,7 +6,10 @@ import {
 import Styled, { keyframes, } from 'styled-components';
 import PageToolBar from '../../../components/page-tool-bar';
 import Spinner from '../../../components/spinner';
-import { getPokemonDetail, convertFirstAlphabetToUpperCase, } from '../../../utils';
+import {
+  getPokemonDetail,
+  convertFirstAlphabetToUpperCase,
+} from '../../../utils';
 
 const jump = keyframes`
   0%   {transform: translate3d(0, 0, 0);}
@@ -27,7 +30,7 @@ const StyleImgContainer = Styled.div`
 `;
 
 const StyledTypeBlock = Styled.div`
-  &.types {
+  & {
     display: flex;
     justify-content: center;
     & div {
@@ -107,6 +110,15 @@ function Detail({
 }: DetailPropsTypes) {
   const [detailData, setDetailData]: any = React.useState({});
   const [speciesData, setSepciesData]: any = React.useState({});
+  const {
+    types = [],
+    height = 0,
+    weight = 0,
+  } = detailData;
+  const {
+    flavor_text_entries = []
+  } = speciesData
+  const matchedData = flavor_text_entries.filter((flavor: any) => flavor.language.name === 'en');
   React.useEffect(() => {
     const { species = {}, } = detailData;
     const { url, } = species;
@@ -124,17 +136,12 @@ function Detail({
       />
     );
   }
-  console.log('speciesData', speciesData);
-
-  const {
-    types = [],
-    height = 0,
-    weight = 0,
-  } = detailData;
-  const {
-    flavor_text_entries = []
-  } = speciesData
-  const matchedData = flavor_text_entries.filter((flavor: any) => flavor.language.name === 'en');
+  function _renderDescribe() {
+    if (matchedData.length) {
+      return <StyledDescribe>{matchedData[0].flavor_text}</StyledDescribe>;
+    }
+    return <Spinner />;
+  }
   return (
     <Page
       onInit={() => getPokemonDetail(data.url, setDetailData)}
@@ -143,7 +150,7 @@ function Detail({
       <StyleImgContainer>
         <img src={`images/pokemon/sprites/${index + 1}.png`} />
       </StyleImgContainer>
-      <StyledTypeBlock className="types">
+      <StyledTypeBlock>
         {types.map((type: any) => {
           const { type: { name = '', }, } = type;
           return <div className={name}>{convertFirstAlphabetToUpperCase(name)}</div>
@@ -159,7 +166,7 @@ function Detail({
           <div>{height / 10}m</div>
         </div>
       </StyledWieghtAndHeightBlock>
-      {matchedData.length ? <StyledDescribe>{matchedData[0].flavor_text}</StyledDescribe> : <Spinner />}
+      {_renderDescribe()}
     </Page >
   );
 }

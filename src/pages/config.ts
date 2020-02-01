@@ -1,3 +1,5 @@
 export const PageTypes = {
-  MAIN_PAGE: 'MAIN_PAGE',
+  MAIN: 'main',
+  POKEMON: 'pokemon',
+  OTHERS: 'others'
 }
