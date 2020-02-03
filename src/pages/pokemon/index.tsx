@@ -21,16 +21,17 @@ const QUERY_LIMIT = 20;
 
 function Pokemon({
   navigator,
-}: { navigator: any, }) {
-  const [data, setData] = React.useState([]);
+  pokemonData,
+  setPokemonData,
+}: { navigator: any, pokemonData: Array<any>, setPokemonData: any, }) {
   const [triggerCount, setTriggerCoune] = React.useState(0);
 
   function _handleGetPokemonsData(values: Array<any>) {
     const nextData = [
-      ...data,
+      ...pokemonData,
       ...values,
     ];
-    setData(nextData);
+    setPokemonData(nextData);
   }
 
   function _handleQuery() {
@@ -39,7 +40,7 @@ function Pokemon({
   }
 
   function _handleChangeCaught(index: number) {
-    const nextData = data.map((d: any, idx: number) => {
+    const nextData = pokemonData.map((d: any, idx: number) => {
       let nextCaught = d.caught;
       if (index === idx) {
         nextCaught = !nextCaught
@@ -49,7 +50,7 @@ function Pokemon({
         caught: nextCaught,
       }
     });
-    setData(nextData);
+    setPokemonData(nextData);
   }
 
   function _renderFooter() {
@@ -99,7 +100,7 @@ function Pokemon({
   return (
     <Page onInit={_handleQuery}>
       <List
-        dataSource={data}
+        dataSource={pokemonData}
         renderRow={_renderListItem}
         renderFooter={_renderFooter}
       />
