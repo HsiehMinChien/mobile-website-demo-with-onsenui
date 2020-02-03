@@ -85,12 +85,13 @@ function Pokemon({
       >
         <div className='left'>
           <img
+            alt={data.name}
             src={`images/pokemon/icons/${idx + 1}.png`}
             className='list-item__thumbnail'
           />
         </div>
         <div className="center">{convertFirstAlphabetToUpperCase(data.name)}</div>
-        <div className="right"><img src={caughtUrl} /></div>
+        <div className="right"><img alt="" src={caughtUrl} /></div>
       </ListItem>
     );
   }

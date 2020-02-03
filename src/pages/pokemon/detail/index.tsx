@@ -207,7 +207,7 @@ function Detail({
       renderBottomToolbar={_renderBottomToolbar}
     >
       <StyleImgContainer>
-        <img src={`images/pokemon/sprites/${index + 1}.png`} />
+        <img alt={data.name} src={`images/pokemon/sprites/${index + 1}.png`} />
       </StyleImgContainer>
       <StyledTypeBlock>
         {types.map((type: any) => {
