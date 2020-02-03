@@ -20,7 +20,6 @@ function getDatas(url: string, setDataCallback: (data: any) => void, path?: stri
     })
     .then((res) => {
       // Set data
-      console.log(res);
       const data = path ? get(res, path) : res;
       setDataCallback(data);
     })

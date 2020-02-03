@@ -36,7 +36,7 @@ const StyledTypeBlock = Styled.div`
     display: flex;
     justify-content: center;
     & div {
-      background-color: #eee;
+      background-color: #6AA596;
       font-weight: 900;
       color: white;
       padding: 8px 10px;
@@ -79,6 +79,21 @@ const StyledTypeBlock = Styled.div`
     }
     & .fighting {
       background-color: #8C0F04;
+    }
+    & .ghost {
+      background-color: #705898;
+    }
+    & .dragon {
+      background-color: #7038F8;
+    }
+    & .ice {
+      background-color: #98D8D8;
+    }
+    & .rock {
+      background-color: #705848;
+    }
+    & .steel {
+      background-color: #B8B8D0;
     }
   }
 `;
