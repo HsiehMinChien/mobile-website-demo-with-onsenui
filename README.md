@@ -7,7 +7,7 @@ Demo project
 
 ## Online project
 
-(Online demo)[https://mobile-website-demo-with-onsenui.mediocre0528.now.sh]
+[Online demo](https://mobile-website-demo-with-onsenui.mediocre0528.now.sh)
 
 ## API
 
