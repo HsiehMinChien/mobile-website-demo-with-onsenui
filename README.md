@@ -1,11 +1,14 @@
 Demo project
 
 ## How to start
+
 1. npm install
 2. npm start
 
 ## Online project
-https://mobile-website-demo-with-onsenui.mediocre0528.now.sh
+
+(Online demo)[https://mobile-website-demo-with-onsenui.mediocre0528.now.sh]
 
 ## API
+
 https://pokeapi.co/
